@@ -8,8 +8,12 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 
+import uet.jcia.core.scanner.ZipScanner;
+
 public class test {
 	public static void main(String[] args) {
-		System.out.println(ParserXMLToTable.parserToTable("src/main/resources/Address.xml"));
+		String xmlFile = ZipScanner.searchXmlFile("src/main/resources/resources.zip");
+		System.out.println(ParserXMLToTable.parserToTable(xmlFile));
+		ZipScanner.deleteFile(xmlFile);
 	}
 }
