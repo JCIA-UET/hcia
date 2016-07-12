@@ -4,7 +4,6 @@ import java.util.List;
 
 public class Table {
 	private String tableName;
-	private PrimaryKey primaryKey;
 	private List<Column> listColumn;
 	
 	
@@ -14,12 +13,8 @@ public class Table {
 	public void setTableName(String tableName) {
 		this.tableName = tableName;
 	}
-	public PrimaryKey getPrimaryKey() {
-		return primaryKey;
-	}
-	public void setPrimaryKey(PrimaryKey primaryKey) {
-		this.primaryKey = primaryKey;
-	}
+	
+	
 	public List<Column> getListColumn() {
 		return listColumn;
 	}
@@ -29,7 +24,6 @@ public class Table {
 	public String toString(){
 		String result = "";
 		result += "Table : " + tableName +"\n";
-		result += primaryKey;
 		for(Column col : listColumn){
 			result+=col;
 		}

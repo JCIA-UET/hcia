@@ -1,21 +1,20 @@
 package uet.jcia.core.convert;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
 
 import uet.jcia.core.hbm.tag.Clazz;
 import uet.jcia.core.hbm.tag.HibernateMapping;
 import uet.jcia.core.hbm.tag.Property;
 import uet.jcia.core.sqlObject.Column;
-import uet.jcia.core.sqlObject.PrimaryKey;
 import uet.jcia.core.sqlObject.Table;
 
 public class ConvertHBMTagtoSqlObject {
-	private Hashtable<String,String> mappingType;
+	private HashMap<String,String> mappingType;
 	
 	public ConvertHBMTagtoSqlObject(){
-		mappingType = new Hashtable<>();
+		mappingType = new HashMap<>();
 		mappingType.put("java.lang.Integer", "INTEGER");
 		mappingType.put("int", "INTEGER");
 		mappingType.put("java.lang.Long", "BIGINT");
@@ -58,21 +57,27 @@ public class ConvertHBMTagtoSqlObject {
 			Table table = new Table();
 			//set name for table
 			table.setTableName(clazz.getTable());
+			List<Column> listColumn = new ArrayList<>();
 			
 			//set primarykey for table
-			PrimaryKey primaryKey = new PrimaryKey();
+			Column primaryKey = new Column();
 			primaryKey.setName(clazz.getId().getName());
 			primaryKey.setType(mappingType.get(clazz.getId().getType()));
-			primaryKey.setGenerator(clazz.getId().getGenerator().getClazz());
-			table.setPrimaryKey(primaryKey);
+			if(!clazz.getId().getGenerator().getClazz().equals("select")){
+				primaryKey.setAutoIcrement(true);
+			}
+			primaryKey.setPrimaryKey(true);
+			listColumn.add(primaryKey);
 			
 			
 			// set listColumn for table
-			List<Column> listColumn = new ArrayList<>();
+			
 			for(Property property : clazz.getProperties()){
 				Column column = new Column();
 				column.setName(property.getColumn().getName());
 				column.setType(mappingType.get(property.getType()));
+				column.setAutoIcrement(false);
+				column.setPrimaryKey(false);
 				listColumn.add(column);
 			}
 			table.setListColumn(listColumn);
