@@ -12,7 +12,8 @@ import java.util.zip.ZipInputStream;
 
 public class ZipScanner {
 	
-	private static final String OUT_PUT = "src/main/resources";
+	public static final String OUT_PUT_DIR = "src/main/resources";
+	private static String IN_PUT_FILE;
 	
 	public static void extractFile(ZipInputStream zis, File outputDir, String fileName) {
 		byte[] buffer = new byte[1024];
@@ -32,37 +33,34 @@ public class ZipScanner {
 		}
 	}
 	
-	public static void deleteFile(String fileDir) {
-		System.out.println("-- DELETING ALL EXTRACTED FILE AFTER PARSING --");
-		
+	/*
+	public static void deleteExtractedFile(String fileDir) {
 		File file = new File(fileDir);
 		
 		if(file.isDirectory()) {
 			if(file.list().length==0) {
-				file.delete();
+				return;
 			}
 			else {
 				String[] files = file.list();
 				for (String temp : files) {
-					File childFile = new File(file, temp);
-					childFile.delete();
-					
-					//check again
-					if(file.list().length == 0){
-		           	     file.delete();
+					String tempFileDir = OUT_PUT_DIR + File.separator + temp;
+					if(!(tempFileDir.equals(IN_PUT_FILE))) {
+						deleteExtractedFile(tempFileDir);
 					}
 				}
 			}
 		}
 		else {
 			file.delete();
+			System.out.println("-- DELETE FILE: " + fileDir + " --");
 		}
-		
-		System.out.println("-- DELETE COMPLETE --");
 	}
+	*/
 	
 	public static String searchXmlFile(String zipFile) {
-		File outputDir = new File(OUT_PUT);
+		IN_PUT_FILE = zipFile;
+		File outputDir = new File(OUT_PUT_DIR);
 		String xmlFileDir = null;
 		try {
 			ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile));
@@ -75,7 +73,7 @@ public class ZipScanner {
 				
 				if(fileName.endsWith(".xml")) {
 					xmlFileDir = outputDir + File.separator + fileName;
-					System.out.println("-- FOUND XML FILE. EXTRACTING TO: " + outputDir + " --");
+					System.out.println("-- FOUND XML FILE. EXTRACTING: " + xmlFileDir + " --");
 					File xmlFile = new File(xmlFileDir);
 					
 					new File(xmlFile.getParent()).mkdirs();
