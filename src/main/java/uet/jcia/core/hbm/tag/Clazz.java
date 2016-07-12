@@ -6,7 +6,6 @@ public class Clazz {
 	private String name;
 	private String table;
 	private Id id;
-	
 	private List<Property> properties;
 
     public String getName() {
