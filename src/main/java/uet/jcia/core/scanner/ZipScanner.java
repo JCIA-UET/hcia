@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -58,7 +59,8 @@ public class ZipScanner {
 	}
 	*/
 	
-	public static String searchXmlFile(String zipFile) {
+	public static List<String> searchXmlFile(String zipFile) {
+		List<String> namesList = new ArrayList<>();
 		IN_PUT_FILE = zipFile;
 		File outputDir = new File(OUT_PUT_DIR);
 		String xmlFileDir = null;
@@ -79,6 +81,7 @@ public class ZipScanner {
 					new File(xmlFile.getParent()).mkdirs();
 					
 					extractFile(zis, outputDir, fileName);
+					namesList.add(xmlFileDir);
 				}
 				ze = zis.getNextEntry();
 			}
@@ -94,6 +97,6 @@ public class ZipScanner {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return xmlFileDir;
+		return namesList;
 	}
 }
