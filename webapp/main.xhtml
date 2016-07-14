@@ -29,7 +29,7 @@
 		    <p:dialog header="Choose an xml file..." widgetVar="dlgxml" modal="true" height="250" weigh="250">
             	<h:form enctype="multipart/form-data">
     				<p:fileUpload style="weigh:250px;" fileUploadListener="#{fileUploadBean.handleFileUpload}" mode="advanced" 
-    						dragDropSupport="true" auto="true" update="messages" />
+    						dragDropSupport="true" auto="true" update="messages" allowTypes="/(\.|\/)(hbm.xml|zip)$/"/>
  
     				<p:growl id="messages" showDetail="true" />
 				</h:form>
