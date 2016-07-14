@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -19,35 +21,41 @@ import uet.jcia.core.sqlObject.Table;
  
 @ManagedBean
 public class FileUploadBean {
- 
-    public List<Table> handleFileUpload(FileUploadEvent event) {
+	private List<Table> tablesList;
+	
+	public List<Table> getTablesList() {
+		return tablesList;
+	}
+
+	public void setTablesList(List<Table> tablesList) {
+		this.tablesList = tablesList;
+	}
+	
+    public void handleFileUpload(FileUploadEvent event) {
     	UploadedFile uploadedFile = event.getFile();
         String fileName = uploadedFile.getFileName();
-        List<Table> tablesList = null;
         InteractComponent ic = new InteractComponent();
+        String fileDir = null;
         
         try {
         	if(fileName.endsWith(".hbm.xml")) {
 				InputStream input = uploadedFile.getInputstream();
-				String fileDir = this.writeFile(input, ZipScanner.OUT_PUT_DIR, fileName);
-				tablesList = ic.xmlInteractive(fileDir);
+				fileDir = this.writeFile(input, ZipScanner.OUT_PUT_DIR, fileName);
+				this.setTablesList(ic.xmlInteractive(fileDir));
 				
         	}
         	else if(fileName.endsWith(".zip")) {
 				InputStream input = uploadedFile.getInputstream();
-				String fileDir = this.writeFile(input, ZipScanner.OUT_PUT_DIR, fileName);	        	
-	        	tablesList = ic.zipInteractive(fileDir);
+				fileDir = this.writeFile(input, ZipScanner.OUT_PUT_DIR, fileName);	        	
+				this.setTablesList(ic.zipInteractive(fileDir));
         	}
-        	
-        	return tablesList;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        return null;
     }
-    
-    public String writeFile(InputStream is, String outputDir, String fileName) {
+
+	public String writeFile(InputStream is, String outputDir, String fileName) {
     	byte[] buffer = new byte[1024000];
     	String fileDir = null;
     	File path = new File(outputDir);

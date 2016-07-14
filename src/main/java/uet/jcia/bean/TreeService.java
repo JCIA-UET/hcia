@@ -15,15 +15,11 @@ import uet.jcia.core.sqlObject.Table;
 
 @ManagedBean(name = "tableService")
 @ApplicationScoped
-public class TableService {
-	public TreeNode createTable(String zipLinkFile){
-		InteractComponent inter = new InteractComponent();
-		
-		List<Table> list = inter.zipInteractive("src/main/resources/resources.zip");
-		
+public class TreeService {
+	public TreeNode createTable(List<Table> tablesList){
 		TreeNode root = new DefaultTreeNode("root",null) ;
 		
-		for(Table table : list){
+		for(Table table : tablesList){
 			TreeNode tableNode = new DefaultTreeNode(table.getTableName(),root);
 			List<Column> listColumn = table.getListColumn();
 			for(Column column:listColumn){
