@@ -19,7 +19,7 @@ public class TreeService {
 	public TreeNode createTable(){
 		InteractComponent inter = new InteractComponent();
 		
-		List<Table> list = inter.zipInteractive("src/main/resources/resources.zip");
+		List<Table> list = inter.zipInteractive("I:/Workspace/hcia/src/main/resources/resources.zip");
 		
 		TreeNode root = new DefaultTreeNode("root",null) ;
 		

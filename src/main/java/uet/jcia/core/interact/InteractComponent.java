@@ -13,6 +13,8 @@ import uet.jcia.core.scanner.ZipScanner;
 import uet.jcia.core.sqlObject.Table;
 
 public class InteractComponent {
+    private static List<Table> sampleTableList = null;
+    
 	public List<Table> zipInteractive(String linkZipFile){
 		List<Table> result = new ArrayList<>();
 		
@@ -58,4 +60,15 @@ public class InteractComponent {
 		}
 		return result;
 	}
+	
+	public static List<Table> getSampleTableList() {
+	    if (sampleTableList == null) {
+	        InteractComponent ic = new InteractComponent();
+	        sampleTableList = ic.zipInteractive("I:/Workspace/hcia/src/main/resources/resources.zip");
+	    }
+	    
+	    return sampleTableList;
+	}
+	
+	
 }

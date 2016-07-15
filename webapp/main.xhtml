@@ -73,21 +73,21 @@
 				</p:tree>
 			</p:layoutUnit>
 			<p:layoutUnit position="center" resizable="true">
-				<p:dataTable>
+				<p:dataTable var="column" value="#{tableBean.columnList}">
 				    <p:column headerText="Column Name">
-				        <h:outputText value="name" />
+				        <h:outputText value="#{column.name}" />
 				    </p:column>
 				 
 				    <p:column headerText="Type">
-				        <h:outputText value="type" />
+				        <h:outputText value="#{column.type}" />
 				    </p:column>
 				 
-				    <p:column headerText="Primary Key">
-				        <p:selectBooleanCheckbox value="true" />
+				    <p:column headerText="PK">
+				        <p:selectBooleanCheckbox value="#{column.primaryKey}" />
 				    </p:column>
 				 
 				    <p:column headerText="AI">
-				        <p:selectBooleanCheckbox value="true" />
+				        <p:selectBooleanCheckbox value="#{column.autoIcrement}" />
 				    </p:column>
 				</p:dataTable>
 				
